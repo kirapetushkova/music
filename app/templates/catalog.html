@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог</title>
+</head>
+<body>
+    <h1>Каталог музыкальных исполнителей</h1>
+    <ul>
+        {% for musician in musicians %}
+        <li>{{ musician.name }}
+            <ul>
+                {% for album in musician.albums %}
+                <li>{{ album.title }} ({{ album.release_year }})</li>
+                {% endfor %}
+            </ul>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
