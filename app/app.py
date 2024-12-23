@@ -8,31 +8,29 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
-
-
-# Инициализация приложения
+# Initialize the Flask application
 app = Flask(__name__)
-app.config.from_object('config.Config')  # Подключаем конфигурацию
+app.config.from_object('config.Config')  # Load configuration settings
 
-# Инициализация базы данных
+# Initialize the database
 db.init_app(app)
 migrate = Migrate(app, db)
 
-# Инициализация менеджера сессий
+# Initialize session manager
 login_manager = LoginManager(app)
-login_manager.login_view = 'login'
+login_manager.login_view = 'login'  # No changes here
 
-# Загрузка пользователя по ID
+# Load user by ID
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# Главная страница (выбор режима работы)
+# Home page (selection of user mode)
 @app.route('/')
 def home():
     return render_template('index.html')
 
-# Страница авторизации (для сотрудников)
+# Login page (for staff members)
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -44,19 +42,19 @@ def login():
             return redirect(url_for('dashboard'))
     return render_template('login.html')
 
-# Страница для авторизованных пользователей (сотрудников)
+# Dashboard for authorized staff members
 @app.route('/dashboard')
 @login_required
 def dashboard():
     return render_template('dashboard.html')
 
-# Страница для покупателей (просмотр исполнителей и альбомов)
+# Catalog page for customers (view musicians and albums)
 @app.route('/catalog')
 def catalog():
     musicians = Musician.query.all()
     return render_template('catalog.html', musicians=musicians)
 
-# Выход из системы (для сотрудников)
+# Logout for staff members
 @app.route('/logout')
 @login_required
 def logout():
