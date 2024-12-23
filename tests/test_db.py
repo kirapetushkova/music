@@ -7,7 +7,7 @@ class FakeTests(unittest.TestCase):
         self.assertTrue(True)  # Всегда проходит
 
     def test_fake_database_connection(self):
-        print("Проверка подключения к базе данных: Успешно")
+        print("Проверка подключения к базе данных: Неуспешно")
         self.assertTrue(True)  # Всегда проходит
 
     def test_fake_api_response(self):
